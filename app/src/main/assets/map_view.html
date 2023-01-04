@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+
+    <style>
+    .map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id="map" class="map"></div>
+
+<script type="text/javascript">
+
+	var geoserver='http://192.168.1.78:8080/geoserver/sig/wms';
+
+	var pav= new ol.layer.Tile({
+		source: new ol.source.TileWMS({
+			url: geoserver,
+			params: {'LAYERS': 'sig:dechets_pav'},
+			serverType: 'geoserver'
+		})
+	});
+
+	var espaces= new ol.layer.Tile({
+		source: new ol.source.TileWMS({
+			url: geoserver,
+			params: {'LAYERS': 'sig:espaces-verts-voirie'},
+			serverType: 'geoserver'
+		})
+	});
+    // osm
+
+    var osm=new ol.layer.Tile({
+      extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
+            source: new ol.source.OSM({opaque:false})
+      });
+
+
+    var map = new ol.Map({
+      target: 'map',
+      layers: [osm,pav,espaces],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([1.9,47.9]),
+        zoom: 12
+        })
+      });
+
+  </script>
+</body>

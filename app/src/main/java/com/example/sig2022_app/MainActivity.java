@@ -1,6 +1,7 @@
 package com.example.sig2022_app;
 
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        WebView myWebView = (WebView) findViewById(R.id.map_webview);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.clearCache(true);
+        myWebView.loadUrl("file:///android_asset/map_view.html");
     }
 
 }
