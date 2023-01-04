@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,14 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+        WebView myWebView = (WebView) root.findViewById(R.id.map_webview);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.clearCache(true);
+        myWebView.loadUrl("file:///android_asset/map_view.html");
+
+
         return root;
     }
 

@@ -34,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        WebView myWebView = (WebView) findViewById(R.id.map_webview);
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.clearCache(true);
-        myWebView.loadUrl("file:///android_asset/map_view.html");
     }
 
 }
