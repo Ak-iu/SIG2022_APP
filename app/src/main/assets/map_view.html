@@ -39,7 +39,6 @@
 	
 	var cercle_vert = style_cercle('green');
 	var cercle_rouge = style_cercle('red');
-	var cercle_bleu = style_cercle('blue');
 	var cercle_gris = style_cercle('grey');
 	
 	var now = new Date();
@@ -243,15 +242,61 @@
 	});
 	
 	
+	const view = new ol.View({
+			center: ol.proj.fromLonLat([1.909,47.897]),
+			zoom: 13
+	});
+	
+	
+	const geolocation = new ol.Geolocation({
+		trackingOptions: {
+			enableHighAccuracy: true,
+		},
+		projection: view.getProjection(),
+	});
+	
+	geolocation.setTracking(true);
+	
+	// handle geolocation error.
+	geolocation.on('error', function (error) {
+		alert('Erreur : Veuillez vérifier que la géolocalisation est bien activée.');
+	});
+	
+	const accuracyFeature = new ol.Feature();
+	geolocation.on('change:accuracyGeometry', function () {
+		accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+	});
+	
+	const positionFeature = new ol.Feature();
+	positionFeature.setStyle(
+		new ol.style.Style({
+			image: new ol.style.Circle({
+				radius: 6,
+				fill: new ol.style.Fill({
+					color: '#3399CC',
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#fff',
+					width: 2,
+				}),
+			}),
+		})
+	);
+	
+	
+	geolocation.on('change:position', function () {
+		const coordinates = geolocation.getPosition();
+		positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+	});
+	
+	layer_position = new ol.layer.Vector({source:new ol.source.Vector({ features: [accuracyFeature, positionFeature]})});
+	
 	// map
-	layers = [osm];
+	layers = [osm,layer_position];
 	var map = new ol.Map({
 		target: 'map',
 		layers: layers,
-		view: new ol.View({
-		center: ol.proj.fromLonLat([1.909,47.897]),
-		zoom: 13
-		})
+		view: view
 	});
 	
 	
@@ -261,11 +306,11 @@
 	
 	function update() {
 		if (selectElement.value == 'pav')
-			layers = [osm,pav];
+			layers = [osm,pav,layer_position];
 		else if (selectElement.value == 'espaces')
-			layers = [osm,espaces];
+			layers = [osm,espaces,layer_position];
 		else 
-			layers = [osm];
+			layers = [osm,layer_position];
 		
 		map.setLayers(layers);
 	}
