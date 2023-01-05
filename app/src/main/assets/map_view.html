@@ -35,6 +35,8 @@
 		});
 	}
 	
+	var style_vide = new ol.style.Style({});
+	
 	var cercle_vert = style_cercle('green');
 	var cercle_rouge = style_cercle('red');
 	var cercle_bleu = style_cercle('blue');
@@ -56,17 +58,166 @@
 			source: new ol.source.OSM({opaque:false})
 	});
 	
+	var icone_banc = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/bench.png',
+			scale:0.7,
+		})
+	});
+	
+	var icone_arrosage = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/sprinkler.png',
+			scale:0.7,
+		})
+	});
+	
+	var icone_arbre = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/tree.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_fleurs = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/flower.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_jardiniere = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pot.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_jeu_rect = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/child.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_robinet = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/faucet.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_armoire = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/sprinkler.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_jeu_rond = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/child.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_statue = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/monument.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_grille_ronde = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/nature.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_jardiniere_suspendue = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pot.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_colonne = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pot.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_jardiniere_poteau = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pot.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_manege = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/attraction.png',
+			scale:0.7,
+		})
+	});
+	
+	icone_portique = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pergola.png',
+			scale:0.7,
+		})
+	});
+	
 	// espaces verts et voierie
 	var espaces = new ol.layer.Vector({
+		declutter: true,
 		source: new ol.source.Vector({
 			url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
 			format: new ol.format.GeoJSON(),
 		}),
-		style: cercle_bleu,
+		style: function(feature) {
+			code = feature.get('obj_code');
+			if (code == '3S111')
+				return icone_banc;
+			else if (code == '3S117')
+				return icone_arrosage;
+			else if (code == '3S098')
+				return icone_arbre;
+			else if (code == '3S113')
+				return icone_fleurs;
+			else if (code == '2S112')
+				return icone_jardiniere;
+			else if (code == '3S115')
+				return icone_jeu_rect;
+			else if (code == '1S119')
+				return icone_robinet;
+			else if (code == '3S118')
+				return icone_armoire;
+			else if (code == '2S114')
+				return icone_jeu_rond;
+			else if (code == '1S110')
+				return icone_statue;
+			else if (code == '2S098')
+				return icone_grille_ronde;
+			else if (code == '1S105')
+				return icone_jardiniere_suspendue;
+			else if (code == '3S096')
+				return icone_colonne;
+			else if (code == '1S106')
+				return icone_jardiniere_poteau;
+			else if (code == '2S116')
+				return icone_manege;
+			else if (code == '2S097')
+				return icone_portique;
+			return style_vide;
+		},
 	});
 
 	// pav
 	var pav = new ol.layer.Vector({
+		declutter: true,
 		source: new ol.source.Vector({
 			url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Adechets_pav&outputFormat=application%2Fjson',
 			format: new ol.format.GeoJSON(),
@@ -93,7 +244,6 @@
 	
 	
 	// map
-	
 	layers = [osm];
 	var map = new ol.Map({
 		target: 'map',
