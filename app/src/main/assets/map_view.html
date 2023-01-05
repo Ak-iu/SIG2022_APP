@@ -12,44 +12,114 @@
   </style>
 </head>
 <body>
-<div id="map" class="map"></div>
 
+	<select id="choix">
+		<option value="none" selected>Aucun</option>
+        <option value="pav">P.A.V</option>
+        <option value="espaces">Espaces verts et equipements</option>
+    </select>
+
+<div id="map" class="map"></div>
 <script type="text/javascript">
 
-    var geoserver='http://192.168.1.78:8080/geoserver/sig/wms';
-	//var geoserver='http://90.63.15.88:8080/geoserver/sig/wms';
+    var geoserver='http://192.168.1.78:8080/geoserver/sig/';
+	//var geoserver='http://90.63.15.88:8080/geoserver/sig/';
+	
 
-	var pav= new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: geoserver,
-			params: {'LAYERS': 'sig:dechets_pav'},
-			serverType: 'geoserver'
-		})
-	});
-
-	var espaces= new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: geoserver,
-			params: {'LAYERS': 'sig:espaces-verts-voirie'},
-			serverType: 'geoserver'
-		})
-	});
-    // osm
-
+	function style_cercle(couleur) {
+		return new ol.style.Style({ 
+			image: new ol.style.Circle({
+				fill: new ol.style.Fill({ color: couleur }),
+				radius: 5,
+			}),
+		});
+	}
+	
+	var cercle_vert = style_cercle('green');
+	var cercle_rouge = style_cercle('red');
+	var cercle_bleu = style_cercle('blue');
+	var cercle_gris = style_cercle('grey');
+	
+	var now = new Date();
+	var h = now.getHours();
+	
+	var style_pav = null;
+	if ( 7 <= h && h < 22 )
+		style_pav = style_cercle('green');
+	else
+		style_pav = style_cercle('red');
+	
+	
+	// osm
     var osm=new ol.layer.Tile({
-      extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
-            source: new ol.source.OSM({opaque:false})
-      });
+		extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
+			source: new ol.source.OSM({opaque:false})
+	});
+	
+	// espaces verts et voierie
+	var espaces = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
+			format: new ol.format.GeoJSON(),
+		}),
+		style: cercle_bleu,
+	});
 
-
-    var map = new ol.Map({
-      target: 'map',
-      layers: [osm,pav,espaces],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([1.9,47.9]),
-        zoom: 12
-        })
-      });
+	// pav
+	var pav = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Adechets_pav&outputFormat=application%2Fjson',
+			format: new ol.format.GeoJSON(),
+		}),
+		style: function(feature) {
+			try {
+				time = feature.get('opening_hours');
+				if (time == '07:00-22:00') //Optimisation : la majorité des points ont cette valeur
+					return style_pav;
+				else if (time == '24/7')
+					return cercle_vert;
+				
+				open_hour = parseInt(time.substring(0,2));
+				close_hour = parseInt(time.substring(6,8));
+				if ( open_hour <= h && h < close_hour ) //Test de l'heure
+					return cercle_vert;
+				else
+					return cercle_rouge;
+			} catch (error) { 
+				return cercle_gris; //Des points ont un champ à null
+			}
+		}
+	});
+	
+	
+	// map
+	
+	layers = [osm];
+	var map = new ol.Map({
+		target: 'map',
+		layers: layers,
+		view: new ol.View({
+		center: ol.proj.fromLonLat([1.909,47.897]),
+		zoom: 13
+		})
+	});
+	
+	
+	// pour changer la selection
+	const selectElement = document.getElementById('choix');
+	selectElement.addEventListener('change', update)
+	
+	function update() {
+		if (selectElement.value == 'pav')
+			layers = [osm,pav];
+		else if (selectElement.value == 'espaces')
+			layers = [osm,espaces];
+		else 
+			layers = [osm];
+		
+		map.setLayers(layers);
+	}
+	
 
   </script>
 </body>
