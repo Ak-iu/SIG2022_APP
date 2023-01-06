@@ -13,169 +13,173 @@
 </head>
 <body>
 
-	<select id="choix">
-		<option value="none" selected>Aucun</option>
-        <option value="pav">P.A.V</option>
-        <option value="espaces">Espaces verts et equipements</option>
-    </select>
+<select id="choix">
+    <option value="none" selected>Aucun</option>
+    <option value="pav">P.A.V</option>
+    <option value="espaces">Espaces verts et equipements</option>
+</select>
+
+<button onClick="find_closest_bench()">Banc</button>
 
 <div id="map" class="map"></div>
 <script type="text/javascript">
 
     var geoserver='http://192.168.1.78:8080/geoserver/sig/';
 	//var geoserver='http://90.63.15.88:8080/geoserver/sig/';
-	
+
 
 	function style_cercle(couleur) {
-		return new ol.style.Style({ 
+		return new ol.style.Style({
 			image: new ol.style.Circle({
 				fill: new ol.style.Fill({ color: couleur }),
 				radius: 5,
 			}),
 		});
 	}
-	
+
 	var style_vide = new ol.style.Style({});
-	
+
 	var cercle_vert = style_cercle('green');
 	var cercle_rouge = style_cercle('red');
 	var cercle_gris = style_cercle('grey');
-	
+
 	var now = new Date();
 	var h = now.getHours();
-	
+
 	var style_pav = null;
 	if ( 7 <= h && h < 22 )
 		style_pav = style_cercle('green');
 	else
 		style_pav = style_cercle('red');
-	
-	
+
+
 	// osm
     var osm=new ol.layer.Tile({
 		extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
 			source: new ol.source.OSM({opaque:false})
 	});
-	
+
 	var icone_banc = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/bench.png',
 			scale:0.7,
 		})
 	});
-	
+
 	var icone_arrosage = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/sprinkler.png',
 			scale:0.7,
 		})
 	});
-	
+
 	var icone_arbre = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/tree.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_fleurs = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/flower.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_jardiniere = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pot.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_jeu_rect = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/child.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_robinet = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/faucet.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_armoire = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/sprinkler.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_jeu_rond = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/child.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_statue = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/monument.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_grille_ronde = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/nature.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_jardiniere_suspendue = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pot.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_colonne = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pot.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_jardiniere_poteau = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pot.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_manege = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/attraction.png',
 			scale:0.7,
 		})
 	});
-	
+
 	icone_portique = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pergola.png',
 			scale:0.7,
 		})
 	});
-	
+
 	// espaces verts et voierie
+
+	var espaces_source = new ol.source.Vector({
+		url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
+		format: new ol.format.GeoJSON(),
+	});
 	var espaces = new ol.layer.Vector({
 		declutter: true,
-		source: new ol.source.Vector({
-			url: geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
-			format: new ol.format.GeoJSON(),
-		}),
+		source: espaces_source,
 		style: function(feature) {
 			code = feature.get('obj_code');
 			if (code == '3S111')
@@ -228,45 +232,45 @@
 					return style_pav;
 				else if (time == '24/7')
 					return cercle_vert;
-				
+
 				open_hour = parseInt(time.substring(0,2));
 				close_hour = parseInt(time.substring(6,8));
 				if ( open_hour <= h && h < close_hour ) //Test de l'heure
 					return cercle_vert;
 				else
 					return cercle_rouge;
-			} catch (error) { 
+			} catch (error) {
 				return cercle_gris; //Des points ont un champ à null
 			}
 		}
 	});
-	
-	
+
+
 	const view = new ol.View({
 			center: ol.proj.fromLonLat([1.909,47.897]),
 			zoom: 13
 	});
-	
-	
+
+
 	const geolocation = new ol.Geolocation({
 		trackingOptions: {
 			enableHighAccuracy: true,
 		},
 		projection: view.getProjection(),
 	});
-	
+
 	geolocation.setTracking(true);
-	
+
 	// handle geolocation error.
 	geolocation.on('error', function (error) {
-		alert('Erreur : Veuillez vérifier que la géolocalisation est bien activée.');
+		//alert('Erreur : Veuillez vérifier que la géolocalisation est bien activée.');
 	});
-	
+
 	const accuracyFeature = new ol.Feature();
 	geolocation.on('change:accuracyGeometry', function () {
 		accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
 	});
-	
+
 	const positionFeature = new ol.Feature();
 	positionFeature.setStyle(
 		new ol.style.Style({
@@ -282,15 +286,15 @@
 			}),
 		})
 	);
-	
-	
+
+
 	geolocation.on('change:position', function () {
 		const coordinates = geolocation.getPosition();
 		positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
 	});
-	
+
 	layer_position = new ol.layer.Vector({source:new ol.source.Vector({ features: [accuracyFeature, positionFeature]})});
-	
+
 	// map
 	layers = [osm,layer_position];
 	var map = new ol.Map({
@@ -298,6 +302,33 @@
 		layers: layers,
 		view: view
 	});
+
+
+	var markers = new ol.layer.Vector({
+		source: new ol.source.Vector(),
+		style: new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'icones/marker.png',
+				anchor: [0.5,1],
+			})
+		})
+	});
+
+
+	function find_closest_bench() {
+		var coords = geolocation.getPosition();
+		try {
+			var banc = espaces_source.getClosestFeatureToCoordinate(coords, function(feature) {
+				return feature.get('obj_code') == '3S111';
+			});
+			map.removeLayer(markers);
+			map.addLayer(markers);
+			var marker = new ol.Feature(new ol.geom.Point(banc.getGeometry().getCoordinates()));
+			markers.getSource().addFeature(marker);
+		} catch (error) {
+			alert('Veuillez sélectionner les équipements');
+		}
+	}
 	
 	
 	// pour changer la selection
