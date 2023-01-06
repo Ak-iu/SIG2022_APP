@@ -251,7 +251,7 @@
 			zoom: 13
 	});
 
-
+	// position courante
 	const geolocation = new ol.Geolocation({
 		trackingOptions: {
 			enableHighAccuracy: true,
@@ -287,7 +287,6 @@
 		})
 	);
 
-
 	geolocation.on('change:position', function () {
 		const coordinates = geolocation.getPosition();
 		positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
@@ -303,7 +302,8 @@
 		view: view
 	});
 
-
+	
+	// marqueur banc proche
 	var markers = new ol.layer.Vector({
 		source: new ol.source.Vector(),
 		style: new ol.style.Style({
@@ -346,6 +346,25 @@
 		map.setLayers(layers);
 	}
 	
-
+	
+	icone_pin = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/pin.png',
+		}),
+		zIndex: 1,
+	});
+	
+	const selection_pav = new ol.interaction.Select({layers: [pav], hitTolerance: 3, style: icone_pin});
+	map.addInteraction(selection_pav);
+	selection_pav.on('select', function(e) {
+		var selected_pav = e.selected[0];
+	});
+	
+	const selection_espaces = new ol.interaction.Select({layers: [espaces], hitTolerance: 3, style: icone_pin});
+	map.addInteraction(selection_espaces);
+	selection_espaces.on('select', function(e) {
+		var selected_espaces = e.selected[0];
+	});
+	
   </script>
 </body>
