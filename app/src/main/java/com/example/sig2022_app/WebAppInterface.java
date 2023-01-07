@@ -18,7 +18,6 @@ public class WebAppInterface {
 
     @JavascriptInterface
     public void sendDetailsPAV(String message) {
-        Log.d("test",message);
         try {
             Intent intent = new Intent(context,DetailsPavActivity.class);
             JSONObject json_pav = new JSONObject(message);
@@ -36,6 +35,13 @@ public class WebAppInterface {
 
     @JavascriptInterface
     public void sendDetailsMobilier(String message) {
-        Log.d("test",message);
+        try {
+            Intent intent = new Intent(context,DetailsMobilierActivity.class);
+            JSONObject json_pav = new JSONObject(message);
+            intent.putExtra("descriptio" , json_pav.getString("descriptio"));
+            context.startActivity(intent);
+        } catch (JSONException e) {
+            Log.d("WebAppInterface",e.getMessage());
+        }
     }
 }

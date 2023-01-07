@@ -14,4 +14,6 @@
     <string name="inconnu">Inconnu</string>
     <string name="inconnues">Inconnues</string>
     <string name="inconnus">Inconnus</string>
+
+    <string name="label_description">Description :</string>
 </resources>
