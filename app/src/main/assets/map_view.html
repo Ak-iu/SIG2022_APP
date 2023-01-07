@@ -347,6 +347,7 @@
 	}
 	
 	
+	// selection d'une feature
 	icone_pin = new ol.style.Style({
 		image: new ol.style.Icon({
 			src: 'icones/pin.png',
@@ -358,13 +359,49 @@
 	map.addInteraction(selection_pav);
 	selection_pav.on('select', function(e) {
 		var selected_pav = e.selected[0];
+		if (selected_pav != null)
+			sendDetailsPAV(selected_pav);
 	});
 	
 	const selection_espaces = new ol.interaction.Select({layers: [espaces], hitTolerance: 3, style: icone_pin});
 	map.addInteraction(selection_espaces);
 	selection_espaces.on('select', function(e) {
 		var selected_espaces = e.selected[0];
+		if (selected_espaces != null)
+			sendDetailsEspaces(selected_espaces);
 	});
+	
+	
+	// Communication avec l'application
+	function sendDetailsPAV(feature) {
+		var obj = new Object();
+		obj.objectid = feature.get("objectid");
+		obj.modele_colonne = feature.get("modele_colonne");
+		obj.jour_nettoyage = feature.get("jour_nettoyage");
+		obj.city_code = feature.get("city_code");
+		obj.garbage_types = feature.get("garbage_types");
+		obj.opening_hours = feature.get("opening_hours");
+		obj.postal_code = feature.get("postal_code");
+		obj.num_sect_net = feature.get("num_sect_net");
+		obj.city_name = feature.get("city_name");
+		obj.domanialit = feature.get("domanialit");
+		obj.frequence_net = feature.get("frequence_net");
+		obj.street_name = feature.get("street_name");
+		var jsonString = JSON.stringify(obj);
+		Android.sendDetailsPAV(jsonString);
+	}
+	
+	function sendDetailsEspaces(feature) {
+		var obj = new Object();
+		obj.obj_code = feature.get("obj_code");
+		obj.theme = feature.get("theme");
+		obj.dxf_source = feature.get("dxf_source");
+		obj.objectid = feature.get("objectid");
+		obj.z = feature.get("z");
+		obj.descriptio = feature.get("descriptio");
+		var jsonString = JSON.stringify(obj);
+		Android.sendDetailsMobilier(jsonString);
+	}
 	
   </script>
 </body>
