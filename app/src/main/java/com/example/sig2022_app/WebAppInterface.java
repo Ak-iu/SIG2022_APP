@@ -21,6 +21,7 @@ public class WebAppInterface {
         try {
             Intent intent = new Intent(context,DetailsPavActivity.class);
             JSONObject json_pav = new JSONObject(message);
+            intent.putExtra("objectid" , json_pav.getString("objectid"));
             intent.putExtra("modele_colonne" , json_pav.getString("modele_colonne"));
             intent.putExtra("jour_nettoyage" , json_pav.getString("jour_nettoyage"));
             intent.putExtra("opening_hours" , json_pav.getString("opening_hours"));
@@ -38,6 +39,7 @@ public class WebAppInterface {
         try {
             Intent intent = new Intent(context,DetailsMobilierActivity.class);
             JSONObject json_pav = new JSONObject(message);
+            intent.putExtra("objectid" , json_pav.getString("objectid"));
             intent.putExtra("descriptio" , json_pav.getString("descriptio"));
             context.startActivity(intent);
         } catch (JSONException e) {

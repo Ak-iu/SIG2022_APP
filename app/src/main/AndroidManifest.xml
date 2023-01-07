@@ -16,13 +16,19 @@
         android:theme="@style/Theme.SIG2022_APP"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SignalerDegradationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".DetailsPavActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".DetailsMobilierActivity"
             android:exported="false">

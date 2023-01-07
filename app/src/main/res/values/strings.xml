@@ -16,4 +16,9 @@
     <string name="inconnus">Inconnus</string>
 
     <string name="label_description">Description :</string>
+    <string name="fab_degradation">Signaler une dégradation</string>
+    <string name="label_signaler">Veuillez indiquer la nature de la dégradation :</string>
+    <string name="button">Signaler</string>
+    <string name="hint_degradation">nature</string>
+    <string name="erreur_nature_vide">Veuillez indiquer la nature de la dégradation</string>
 </resources>
