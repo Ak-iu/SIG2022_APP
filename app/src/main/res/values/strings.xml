@@ -3,4 +3,15 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="label_garbage_types">Types de déchets :</string>
+    <string name="label_jour_nettoyage">Jour de nettoyage :</string>
+    <string name="label_opening_hours">Heures d\'ouverture :</string>
+    <string name="label_addresse">Addrese :</string>
+    <string name="modele_colonne">Modèle de colonne :</string>
+
+    <string name="inconnue">Inconnue</string>
+    <string name="inconnu">Inconnu</string>
+    <string name="inconnues">Inconnues</string>
+    <string name="inconnus">Inconnus</string>
 </resources>

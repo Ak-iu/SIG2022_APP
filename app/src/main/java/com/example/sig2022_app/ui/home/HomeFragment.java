@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
 
         WebView myWebView = (WebView) root.findViewById(R.id.map_webview);
         myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.addJavascriptInterface(new WebAppInterface(), "Android");
+        myWebView.addJavascriptInterface(new WebAppInterface(binding.getRoot().getContext()), "Android");
         myWebView.clearCache(true);
         myWebView.loadUrl("file:///android_asset/map_view.html");
 

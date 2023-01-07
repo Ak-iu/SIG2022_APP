@@ -355,7 +355,7 @@
 		zIndex: 1,
 	});
 	
-	const selection_pav = new ol.interaction.Select({layers: [pav], hitTolerance: 3, style: icone_pin});
+	const selection_pav = new ol.interaction.Select({layers: [pav], hitTolerance: 5, style: icone_pin});
 	map.addInteraction(selection_pav);
 	selection_pav.on('select', function(e) {
 		var selected_pav = e.selected[0];
@@ -363,7 +363,7 @@
 			sendDetailsPAV(selected_pav);
 	});
 	
-	const selection_espaces = new ol.interaction.Select({layers: [espaces], hitTolerance: 3, style: icone_pin});
+	const selection_espaces = new ol.interaction.Select({layers: [espaces], hitTolerance: 5, style: icone_pin});
 	map.addInteraction(selection_espaces);
 	selection_espaces.on('select', function(e) {
 		var selected_espaces = e.selected[0];
@@ -382,10 +382,8 @@
 		obj.garbage_types = feature.get("garbage_types");
 		obj.opening_hours = feature.get("opening_hours");
 		obj.postal_code = feature.get("postal_code");
-		obj.num_sect_net = feature.get("num_sect_net");
 		obj.city_name = feature.get("city_name");
 		obj.domanialit = feature.get("domanialit");
-		obj.frequence_net = feature.get("frequence_net");
 		obj.street_name = feature.get("street_name");
 		var jsonString = JSON.stringify(obj);
 		Android.sendDetailsPAV(jsonString);
