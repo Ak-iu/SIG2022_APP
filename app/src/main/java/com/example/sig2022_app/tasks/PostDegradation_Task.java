@@ -2,11 +2,13 @@ package com.example.sig2022_app.tasks;
 
 import android.os.AsyncTask;
 
-import org.json.JSONObject;
 
+
+import org.json.JSONObject;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.ObjectStreamException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -17,7 +19,7 @@ import java.util.Date;
 
 public class PostDegradation_Task extends AsyncTask {
 
-    private final String url_api = "jsp/degradation";
+    private final String url_api = "http://192.168.1.42:8081";
     private final String nature;
     private final String id_equipement;
     private final String date;
@@ -38,7 +40,7 @@ public class PostDegradation_Task extends AsyncTask {
             postData.put("date", date);
             postData.put("id_equipement", id_equipement);
 
-            URL url = new URL(url_api);
+            URL url = new URL(url_api+"/degradations");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("POST");
