@@ -11,7 +11,11 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
+
+import com.example.sig2022_app.tasks.PostDegradation_Task;
 
 public class SignalerDegradationActivity extends AppCompatActivity {
 
@@ -32,10 +36,16 @@ public class SignalerDegradationActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.myCoordinatorLayout),R.string.erreur_nature_vide, BaseTransientBottomBar.LENGTH_SHORT).show();
         }
         else {
-            //TODO Connexion à l'API
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("Signaler",objectid+","+nature+","+LocalDate.now());
             }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Calendar c = Calendar.getInstance();
+            String date = sdf.format(c.getTime());
+
+            PostDegradation_Task task = new PostDegradation_Task(nature,objectid,date);
+            task.execute();
             finish();
         }
     }
