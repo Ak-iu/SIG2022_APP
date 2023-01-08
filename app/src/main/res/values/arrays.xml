@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="types_array">
+        <item>Tête d\'arrosage</item>
+        <item>Banc public</item>
+        <item>Grille carrée arbre</item>
+        <item>Bac à fleurs rectangulaire</item>
+        <item>Jardinière ronde</item>
+        <item>Jeu d\'enfant rectangulaire</item>
+        <item>Robinet ou vanne d\'arrosage</item>
+        <item>Armoire d\'arrosage</item>
+        <item>Jeu d\'enfant rond</item>
+        <item>Statue, Monument</item>
+        <item>Grille ronde arbre</item>
+        <item>Jardinière suspendue</item>
+        <item>Colonne végétale</item>
+        <item>Jardinière sur poteau</item>
+        <item>Manège</item>
+        <item>Portique pour végétation</item>
+    </string-array>
+</resources>

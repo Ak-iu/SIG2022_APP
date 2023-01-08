@@ -1,16 +1,16 @@
-package com.example.sig2022_app.ui.dashboard;
+package com.example.sig2022_app.ui.suggestion;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class SuggestionViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public SuggestionViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is suggestion fragment");
     }
 
     public LiveData<String> getText() {

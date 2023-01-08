@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SIG2022_APP</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_suggestion">Suggestion</string>
     <string name="title_notifications">Notifications</string>
 
     <string name="label_garbage_types">Types de déchets :</string>
@@ -21,4 +21,9 @@
     <string name="button">Signaler</string>
     <string name="hint_degradation">nature</string>
     <string name="erreur_nature_vide">Veuillez indiquer la nature de la dégradation</string>
+    <string name="label_types">Types de mobilier :</string>
+    <string name="type_de_mobiler">Type de mobiler</string>
+    <string name="position_actuelle">Position actuelle</string>
+    <string name="select_carte">Sélectionner sur la carte</string>
+    <string name="valider">Valider</string>
 </resources>

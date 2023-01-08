@@ -1,9 +1,7 @@
 package com.example.sig2022_app;
 
 import android.Manifest;
-import android.os.Build;
 import android.os.Bundle;
-import android.webkit.WebView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_suggestion, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.sig2022_app.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_suggestion"
+        android:name="com.example.sig2022_app.ui.suggestion.SuggestionFragment"
+        android:label="@string/title_suggestion"
+        tools:layout="@layout/fragment_suggestion" />
 
     <fragment
         android:id="@+id/navigation_notifications"
