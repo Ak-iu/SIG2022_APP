@@ -27,7 +27,7 @@ public class SignalerDegradationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signaler_degradation);
         objectid = getIntent().getStringExtra("objectid");
         Button button = findViewById(R.id.valider);
-        button.setOnClickListener(view ->signaler());
+        button.setOnClickListener(view -> signaler());
     }
 
     public void signaler() {
@@ -37,14 +37,14 @@ public class SignalerDegradationActivity extends AppCompatActivity {
         }
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d("Signaler",objectid+","+nature+","+LocalDate.now());
+                Log.d("Signaler", objectid + "," + nature + "," + LocalDate.now());
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Calendar c = Calendar.getInstance();
             String date = sdf.format(c.getTime());
 
-            PostDegradation_Task task = new PostDegradation_Task(nature,objectid,date);
+            PostDegradation_Task task = new PostDegradation_Task(nature, objectid, date);
             task.execute();
             finish();
         }
