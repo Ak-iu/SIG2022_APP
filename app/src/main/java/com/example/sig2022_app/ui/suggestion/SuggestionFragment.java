@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sig2022_app.R;
 import com.example.sig2022_app.WebAppInterface;
 import com.example.sig2022_app.databinding.FragmentSuggestionBinding;
+import com.example.sig2022_app.tasks.PostSuggestion_Task;
 
 public class SuggestionFragment extends Fragment {
 
@@ -135,6 +136,7 @@ public class SuggestionFragment extends Fragment {
         }
         Log.d("Suggestion",type+";"+lon+";"+lat);
         Toast.makeText(view.getContext(),"Suggestion enregistrée",Toast.LENGTH_LONG).show();
-        //TODO Envoyer à l'api
+        PostSuggestion_Task task = new PostSuggestion_Task(type,lon,lat);
+        task.execute();
     }
 }
