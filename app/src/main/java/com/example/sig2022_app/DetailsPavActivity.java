@@ -2,17 +2,19 @@ package com.example.sig2022_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.example.sig2022_app.tasks.GetDegradations_Task;
+import com.example.sig2022_app.tasks.RetourGetDegradations;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class DetailsPavActivity extends AppCompatActivity {
+public class DetailsPavActivity extends AppCompatActivity implements RetourGetDegradations {
 
     private String objectid;
+    private TextView textViewDegradation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,11 @@ public class DetailsPavActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.addresse)).setText(ad);
 
         objectid = bundle.getString("objectid");
+
+        textViewDegradation = findViewById(R.id.textView_degradation);
+
+        GetDegradations_Task task = new GetDegradations_Task(objectid,this);
+        task.execute();
     }
 
     public void signalerDegradation() {
@@ -58,4 +65,9 @@ public class DetailsPavActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void updateTextDegradations(String texte) {
+        Log.d("pav task",texte);
+        textViewDegradation.setText(texte);
+    }
 }

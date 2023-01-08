@@ -153,6 +153,11 @@
                         android:text="@string/inconnu" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/textView_degradation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 

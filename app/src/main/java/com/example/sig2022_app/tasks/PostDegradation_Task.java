@@ -20,6 +20,7 @@ import java.util.Date;
 public class PostDegradation_Task extends AsyncTask {
 
     private final String url_api = "http://192.168.1.42:8081";
+    //private final String url_api = "http://192.168.1.78:8081";
     private final String nature;
     private final String id_equipement;
     private final String date;
