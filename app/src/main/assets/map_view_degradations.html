@@ -1,0 +1,140 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+
+    <style>
+    .map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map" class="map"></div>
+<script type="text/javascript">
+
+    var geoserver='http://192.168.1.78:8080/geoserver/sig/';
+	//var geoserver='http://192.168.1.42:8080/geoserver/sig/';
+
+	var style_vide = new ol.style.Style({});
+	
+	// marqueur	
+	var icone_marker = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/error.png',
+		}),
+		zIndex: 1,
+	});
+	
+
+	// espaces verts et voierie
+	var espaces = new ol.layer.Vector({
+		declutter: true,
+		source: new ol.source.Vector({
+			url:geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
+			format: new ol.format.GeoJSON(),
+		}),
+		style: style_vide,
+	});
+
+	// pav
+	var pav = new ol.layer.Vector({
+		declutter: true,
+		source: new ol.source.Vector({
+			url:geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Adechets_pav&outputFormat=application%2Fjson',
+			format: new ol.format.GeoJSON(),
+		}),
+		style: style_vide,
+	});
+		
+	// osm
+    var osm=new ol.layer.Tile({
+		extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
+			source: new ol.source.OSM({opaque:false})
+	});	
+	
+	const view = new ol.View({
+			center: ol.proj.fromLonLat([1.909,47.897]),
+			zoom: 13
+	});
+	
+	var degradations_layer = new ol.layer.Vector({
+		source: new ol.source.Vector({}),
+		style: icone_marker,
+	});
+	
+	// map
+	layers = [osm,degradations_layer,espaces,pav];
+	var map = new ol.Map({
+		target: 'map',
+		layers: layers,
+		view: view
+	});
+
+
+	// degradations
+	var liste_degradations = { 1: {objectid: 5614, nature: 'jh', date: '08/01/2023'},}
+	
+	function load_liste(liste) {
+		liste_degradations = liste;
+	}
+
+	// On attend que les features d'espaces verts sont chargées pour traiter les dégradations
+	espaces.getSource().on('change', function(evt){
+		var source=evt.target;
+		if(source.getState() === 'ready'){
+			display_degradations(liste_degradations,espaces.getSource());
+		}
+		map.removeLayer(espaces);
+	});
+	
+	// On attend que les features des pavs sont chargées pour traiter les dégradations
+	pav.getSource().on('change', function(evt){
+		var source=evt.target;
+		if(source.getState() === 'ready'){
+			display_degradations(liste_degradations,pav.getSource());
+		}
+		map.removeLayer(pav);
+	});
+
+	function display_degradations(liste_degradations,source) {
+		var keys = Object.keys(liste_degradations);
+		for (i in keys) {
+			var id = keys[i];
+			var objectid = liste_degradations[id]['objectid'];
+			var equipement = null;
+			for (j in source.getFeatures()) {
+				var f = source.getFeatures()[j];
+				if (f.get('objectid') == objectid) {
+					equipement = f;
+					break;
+				}
+			}
+			
+			if (equipement != null) {
+				var coords = equipement.getGeometry().getCoordinates();
+				var marker = new ol.Feature({
+					geometry: new ol.geom.Point(coords),
+				});
+				marker.setId(id);
+				degradations_layer.getSource().addFeature(marker);
+			}
+		}
+	}
+	
+	// Selection d'une dégradation
+	const selection_degrad = new ol.interaction.Select({layers: [degradations_layer], hitTolerance: 5, style: icone_marker});
+	map.addInteraction(selection_degrad);
+	selection_degrad.on('select', function(e) {
+		var selected = e.selected[0];
+		if (selected != null)
+			var id = selected.getId();
+			alert(liste_degradations[id]['nature']);
+			selection_degrad.getFeatures().clear();
+	});
+	
+  </script>
+</body>
