@@ -76,17 +76,27 @@
 
 
 	// degradations
-	var liste_degradations = { 1: {objectid: 5614, nature: 'jh', date: '08/01/2023'},}
-	
+	//var liste_degradations = {1: {objectid: 895, nature: 'pooiu', date: '10/01/2023', type: 'pav'}, 2: {objectid: 259, nature: 'zzrr', date: '10/01/2023', type: 'mobilier'}, }
+	var liste_degradations = {};
+	var liste_loaded = false;
+	var pav_loaded = false;
+	var espaces_loaded = false;
+
+
 	function load_liste(liste) {
 		liste_degradations = liste;
+		liste_loaded = true;
+		if (pav_loaded && liste_loaded && pav_loaded)
+            display_degradations(liste_degradations);
 	}
 
 	// On attend que les features d'espaces verts sont chargées pour traiter les dégradations
 	espaces.getSource().on('change', function(evt){
 		var source=evt.target;
 		if(source.getState() === 'ready'){
-			display_degradations(liste_degradations,espaces.getSource());
+		    espaces_loaded = true;
+		    if (espaces_loaded && liste_loaded && pav_loaded)
+			    display_degradations(liste_degradations);
 		}
 		map.removeLayer(espaces);
 	});
@@ -95,22 +105,40 @@
 	pav.getSource().on('change', function(evt){
 		var source=evt.target;
 		if(source.getState() === 'ready'){
-			display_degradations(liste_degradations,pav.getSource());
+		    pav_loaded = true;
+		    if (pav_loaded && liste_loaded && espaces_loaded)
+			    display_degradations(liste_degradations);
 		}
 		map.removeLayer(pav);
 	});
 
-	function display_degradations(liste_degradations,source) {
+	function display_degradations(liste_degradations) {
 		var keys = Object.keys(liste_degradations);
+		var markers = [];
 		for (i in keys) {
 			var id = keys[i];
 			var objectid = liste_degradations[id]['objectid'];
+			var type = liste_degradations[id]['type'];
 			var equipement = null;
-			for (j in source.getFeatures()) {
-				var f = source.getFeatures()[j];
-				if (f.get('objectid') == objectid) {
-					equipement = f;
-					break;
+			
+			if (type == 'pav') {
+				var source = pav.getSource();
+				for (j in source.getFeatures()) {
+					var f = source.getFeatures()[j];
+					if (f.get('objectid') == objectid) {
+						equipement = f;
+						break;
+					}
+				}
+			}
+			else if (type == 'mobilier') {
+				var source = espaces.getSource();
+				for (j in source.getFeatures()) {
+					var f = source.getFeatures()[j];
+					if (f.get('objectid') == objectid) {
+						equipement = f;
+						break;
+					}
 				}
 			}
 			
@@ -120,9 +148,10 @@
 					geometry: new ol.geom.Point(coords),
 				});
 				marker.setId(id);
-				degradations_layer.getSource().addFeature(marker);
+				markers.push(marker);
 			}
 		}
+		degradations_layer.setSource(new ol.source.Vector({features: markers}));
 	}
 	
 	// Selection d'une dégradation
@@ -132,9 +161,13 @@
 		var selected = e.selected[0];
 		if (selected != null)
 			var id = selected.getId();
-			alert(liste_degradations[id]['nature']);
+			var objectid = liste_degradations[id]['objectid'];
+			Android.selectDegradation(objectid);
 			selection_degrad.getFeatures().clear();
 	});
 	
+	
+	load_liste(liste_degradations);
+		
   </script>
 </body>

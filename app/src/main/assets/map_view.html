@@ -25,8 +25,8 @@
 <div id="map" class="map"></div>
 <script type="text/javascript">
 
-    //var geoserver='http://192.168.1.78:8080/geoserver/sig/';
-	var geoserver='http://192.168.1.42:8080/geoserver/sig/';
+    var geoserver='http://192.168.1.78:8080/geoserver/sig/';
+	//var geoserver='http://192.168.1.42:8080/geoserver/sig/';
 
 	
 
@@ -318,17 +318,13 @@
 
 	function find_closest_bench() {
 		var coords = geolocation.getPosition();
-		try {
-			var banc = espaces_source.getClosestFeatureToCoordinate(coords, function(feature) {
-				return feature.get('obj_code') == '3S111';
-			});
-			map.removeLayer(markers);
-			map.addLayer(markers);
-			var marker = new ol.Feature(new ol.geom.Point(banc.getGeometry().getCoordinates()));
-			markers.getSource().addFeature(marker);
-		} catch (error) {
-			alert('Veuillez sélectionner les équipements');
-		}
+		var banc = espaces.getSource().getClosestFeatureToCoordinate(coords, function(feature) {
+			return feature.get('obj_code') == '3S111';
+		});
+		map.removeLayer(markers);
+		map.addLayer(markers);
+		var marker = new ol.Feature(new ol.geom.Point(banc.getGeometry().getCoordinates()));
+		markers.getSource().addFeature(marker);
 	}
 
 	// pour changer la selection

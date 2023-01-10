@@ -1,7 +1,8 @@
 package com.example.sig2022_app.tasks;
 
-
 import android.os.AsyncTask;
+
+import com.example.sig2022_app.modele.Degradation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,13 +15,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
+public class GetAllDegradations_Task extends AsyncTask<Void, Void, String> {
 
-    private final String id_equipement;
-    private final RetourGetDegradations retour;
+    private final RetourGetAllDegradations retour;
 
-    public GetDegradations_Task(String id_equipement, RetourGetDegradations retour) {
-        this.id_equipement = id_equipement;
+    public GetAllDegradations_Task(RetourGetAllDegradations retour) {
         this.retour = retour;
     }
 
@@ -28,10 +27,7 @@ public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         HttpURLConnection urlConnection = null;
         try {
-            JSONObject getData = new JSONObject();
-            getData.put("id_equipement", id_equipement);
-
-            URL obj = new URL(Api.URL_API + "/degradations?idEquipement=" + id_equipement);
+            URL obj = new URL(Api.URL_API + "/all_degradations");
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             int responseCode = con.getResponseCode();
@@ -62,34 +58,24 @@ public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
         return null;
     }
 
-
-    @Override
-    protected void onProgressUpdate(Void... params) {
-        retour.updateTextDegradations("Recherche des dégradations en cours...");
-    }
-
     @Override
     protected void onPostExecute(String s) {
+        List<Degradation> degradations = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(s);
-            if (jsonArray.length() == 0) retour.updateTextDegradations("Aucune Degradation.");
-            else {
-                List<String> dates = new ArrayList<>();
-                List<String> natures = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    dates.add(jsonObject.get("date").toString());
-                    natures.add(jsonObject.get("nature").toString());
-                }
-                StringBuilder degradationString = new StringBuilder("Degradations:\n");
-                for (int i = 0; i < dates.size(); i++) {
-                    degradationString.append(dates.get(i)).append(" : ").append(natures.get(i)).append("\n");
-                }
-                retour.updateTextDegradations(degradationString.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int id = jsonObject.getInt("id");
+                String id_equipement = (String) jsonObject.get("idEquipement");
+                String date = (String) jsonObject.get("date");
+                String nature = (String) jsonObject.get("nature");
+                String type = (String) jsonObject.get("type");
+                Degradation degradation = new Degradation(id, id_equipement, date, nature, type);
+                degradations.add(degradation);
             }
         } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
         }
+        retour.retourDegradations(degradations);
     }
 }
-
