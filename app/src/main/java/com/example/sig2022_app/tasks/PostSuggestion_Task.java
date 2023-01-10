@@ -15,7 +15,8 @@ import java.nio.charset.StandardCharsets;
 
 public class PostSuggestion_Task extends AsyncTask {
 
-    private final String url_api = "jsp/suggestion";
+    //private final String url_api = "";
+    private final String url_api = "http://192.168.1.42:8081";
     private final String type;
     private final double coords_x;
     private final double coords_y;
@@ -35,7 +36,7 @@ public class PostSuggestion_Task extends AsyncTask {
             postData.put("coords_x", coords_x);
             postData.put("coords_y", coords_y);
 
-            URL url = new URL(url_api);
+            URL url = new URL(url_api+"/equipement");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("POST");

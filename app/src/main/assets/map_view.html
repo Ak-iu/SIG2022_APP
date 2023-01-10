@@ -178,7 +178,7 @@
 		declutter: true,
 		source: new ol.source.Vector({
 			url:geoserver+'ows?service=WFS&version=1.0.0&request=GetFeature&typeName=sig%3Aespaces-verts-voirie&outputFormat=application%2Fjson',
-			
+
 			format: new ol.format.GeoJSON(),
 		}),
 		style: function(feature) {
