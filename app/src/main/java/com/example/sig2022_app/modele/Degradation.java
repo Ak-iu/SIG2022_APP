@@ -1,17 +1,28 @@
 package com.example.sig2022_app.modele;
 
+import androidx.annotation.NonNull;
+
 public class Degradation {
 
-     String id;
-     String idEquipement;
-     String date;
-     String nauture;
+    int id;
+    String idEquipement;
+    String date;
+    String nature;
+    String type;
 
-    public String getId() {
+    public Degradation(int id, String idEquipement, String date, String nature, String type) {
+        this.id = id;
+        this.idEquipement = idEquipement;
+        this.date = date;
+        this.nature = nature;
+        this.type = type;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -31,11 +42,25 @@ public class Degradation {
         this.date = date;
     }
 
-    public String getNauture() {
-        return nauture;
+    public String getNature() {
+        return nature;
     }
 
-    public void setNauture(String nauture) {
-        this.nauture = nauture;
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return id + ": {objectid: " + idEquipement + ", nature: '" + nature + "', date: '" + date + "', type: '" + type + "'}";
     }
 }

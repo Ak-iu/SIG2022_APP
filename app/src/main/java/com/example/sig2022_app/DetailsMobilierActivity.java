@@ -2,7 +2,6 @@ package com.example.sig2022_app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +29,7 @@ public class DetailsMobilierActivity extends AppCompatActivity implements Retour
 
         textViewDegradation = findViewById(R.id.textView_degradation);
 
-        GetDegradations_Task task = new GetDegradations_Task(objectid,this);
+        GetDegradations_Task task = new GetDegradations_Task(objectid, this);
         task.execute();
     }
 
@@ -42,15 +41,15 @@ public class DetailsMobilierActivity extends AppCompatActivity implements Retour
     }
 
     public void signalerDegradation() {
-        Intent intent = new Intent(getBaseContext(),SignalerDegradationActivity.class);
-        intent.putExtra("objectid",objectid);
+        Intent intent = new Intent(getBaseContext(), SignalerDegradationActivity.class);
+        intent.putExtra("objectid", objectid);
+        intent.putExtra("type", "mobilier");
         startActivity(intent);
         finish();
     }
 
     @Override
     public void updateTextDegradations(String texte) {
-        Log.d("mobilier task",texte);
         textViewDegradation.setText(texte);
     }
 }

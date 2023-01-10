@@ -1,11 +1,10 @@
 package com.example.sig2022_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sig2022_app.tasks.GetDegradations_Task;
 import com.example.sig2022_app.tasks.RetourGetDegradations;
@@ -47,27 +46,27 @@ public class DetailsPavActivity extends AppCompatActivity implements RetourGetDe
 
         String sn = bundle.getString("street_name");
         String cn = bundle.getString("city_name");
-        String ad = sn+", "+cn;
+        String ad = sn + ", " + cn;
         ((TextView) findViewById(R.id.addresse)).setText(ad);
 
         objectid = bundle.getString("objectid");
 
         textViewDegradation = findViewById(R.id.textView_degradation);
 
-        GetDegradations_Task task = new GetDegradations_Task(objectid,this);
+        GetDegradations_Task task = new GetDegradations_Task(objectid, this);
         task.execute();
     }
 
     public void signalerDegradation() {
-        Intent intent = new Intent(getBaseContext(),SignalerDegradationActivity.class);
-        intent.putExtra("objectid",objectid);
+        Intent intent = new Intent(getBaseContext(), SignalerDegradationActivity.class);
+        intent.putExtra("objectid", objectid);
+        intent.putExtra("type", "pav");
         startActivity(intent);
         finish();
     }
 
     @Override
     public void updateTextDegradations(String texte) {
-        Log.d("pav task",texte);
         textViewDegradation.setText(texte);
     }
 }
