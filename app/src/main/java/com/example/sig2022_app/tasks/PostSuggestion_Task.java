@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 public class PostSuggestion_Task extends AsyncTask<Void,Void,Void> {
 
+
     private final String type;
     private final double coords_x;
     private final double coords_y;

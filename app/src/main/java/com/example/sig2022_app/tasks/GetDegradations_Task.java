@@ -2,6 +2,7 @@ package com.example.sig2022_app.tasks;
 
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.sig2022_app.modele.Degradation;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
 
     private final String id_equipement;
+
     private final RetourGetDegradations retour;
 
     public GetDegradations_Task(String id_equipement, RetourGetDegradations retour) {
@@ -72,6 +74,7 @@ public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        Log.d("json",s);
         try {
             JSONArray jsonArray = new JSONArray(s);
             if (jsonArray.length() == 0) retour.updateTextDegradations("Aucune Degradation.");

@@ -2,16 +2,21 @@ package com.example.sig2022_app.tasks;
 
 import android.os.AsyncTask;
 
+
+
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.ObjectStreamException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class PostDegradation_Task extends AsyncTask<Void, Void, Void> {
 
