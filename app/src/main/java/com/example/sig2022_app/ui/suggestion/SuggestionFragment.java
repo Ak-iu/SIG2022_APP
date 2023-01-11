@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,8 @@ public class SuggestionFragment extends Fragment {
 
     private FragmentSuggestionBinding binding;
 
-    private double lon;
-    private double lat;
+    private Double lon;
+    private Double lat;
     private boolean modifie;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class SuggestionFragment extends Fragment {
         webView.clearCache(true);
         webView.loadUrl("file:///android_asset/map_pick_view.html");
 
-        lon = 0;
-        lat = 0;
+        lon = 0.0;
+        lat = 0.0;
         modifie = false;
 
         root.findViewById(R.id.radioButton_pos_actuelle).setOnClickListener(this::onPosActuelleClick);
@@ -161,6 +162,7 @@ public class SuggestionFragment extends Fragment {
         }
         Toast.makeText(view.getContext(), "Suggestion enregistrée", Toast.LENGTH_LONG).show();
         PostSuggestion_Task task = new PostSuggestion_Task(type, lon, lat);
+        Log.d("coords",""+lon+" "+lat);
         task.execute();
     }
 }

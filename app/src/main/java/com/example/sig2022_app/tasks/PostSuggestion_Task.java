@@ -1,6 +1,7 @@
 package com.example.sig2022_app.tasks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class PostSuggestion_Task extends AsyncTask {
+
 
     private final String type;
     private final double coords_x;
