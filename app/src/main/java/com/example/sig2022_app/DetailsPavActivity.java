@@ -6,9 +6,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sig2022_app.modele.Degradation;
 import com.example.sig2022_app.tasks.GetDegradations_Task;
 import com.example.sig2022_app.tasks.RetourGetDegradations;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class DetailsPavActivity extends AppCompatActivity implements RetourGetDegradations {
 
@@ -69,4 +72,7 @@ public class DetailsPavActivity extends AppCompatActivity implements RetourGetDe
     public void updateTextDegradations(String texte) {
         textViewDegradation.setText(texte);
     }
+
+    @Override
+    public void retourListe(List<Degradation> degradations) {}
 }

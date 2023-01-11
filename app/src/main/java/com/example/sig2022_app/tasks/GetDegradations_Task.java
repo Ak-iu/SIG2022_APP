@@ -3,6 +3,8 @@ package com.example.sig2022_app.tasks;
 
 import android.os.AsyncTask;
 
+import com.example.sig2022_app.modele.Degradation;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,18 +76,26 @@ public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
             JSONArray jsonArray = new JSONArray(s);
             if (jsonArray.length() == 0) retour.updateTextDegradations("Aucune Degradation.");
             else {
+                List<Degradation> degradations = new ArrayList<>();
                 List<String> dates = new ArrayList<>();
                 List<String> natures = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    dates.add(jsonObject.get("date").toString());
-                    natures.add(jsonObject.get("nature").toString());
+                    int id = jsonObject.getInt("id");
+                    String id_equipement = (String) jsonObject.get("idEquipement");
+                    String date = (String) jsonObject.get("date");
+                    String nature = (String) jsonObject.get("nature");
+                    String type = (String) jsonObject.get("type");
+                    degradations.add(new Degradation(id, id_equipement, date, nature, type));
+                    dates.add(date);
+                    natures.add(nature);
                 }
                 StringBuilder degradationString = new StringBuilder("Degradations:\n");
                 for (int i = 0; i < dates.size(); i++) {
                     degradationString.append(dates.get(i)).append(" : ").append(natures.get(i)).append("\n");
                 }
                 retour.updateTextDegradations(degradationString.toString());
+                retour.retourListe(degradations);
             }
         } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
