@@ -17,9 +17,6 @@ import java.util.List;
 
 public class GetDegradations_Task extends AsyncTask<Void, Void, String> {
 
-
-    //private final String url_api = "http://192.168.1.42:8081";
-    private final String url_api = "http://192.168.1.42:8081";
     private final String id_equipement;
 
     private final RetourGetDegradations retour;

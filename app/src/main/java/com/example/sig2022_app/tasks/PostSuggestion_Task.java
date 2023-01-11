@@ -15,8 +15,6 @@ import java.nio.charset.StandardCharsets;
 
 public class PostSuggestion_Task extends AsyncTask {
 
-    //private final String url_api = "";
-    private final String url_api = "http://192.168.1.42:8081";
     private final String type;
     private final double coords_x;
     private final double coords_y;
