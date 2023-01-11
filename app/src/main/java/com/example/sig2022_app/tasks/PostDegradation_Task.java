@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 
 import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -24,11 +25,13 @@ public class PostDegradation_Task extends AsyncTask {
     private final String nature;
     private final String id_equipement;
     private final String date;
+    private final String type;
 
-    public PostDegradation_Task(String nature, String id_equipement, String date) {
+    public PostDegradation_Task(String nature, String id_equipement, String date, String type) {
         this.nature = nature;
         this.id_equipement = id_equipement;
         this.date = date;
+        this.type = type;
     }
 
 
@@ -40,8 +43,9 @@ public class PostDegradation_Task extends AsyncTask {
             postData.put("nature", nature);
             postData.put("date", date);
             postData.put("id_equipement", id_equipement);
+            postData.put("type", type);
 
-            URL url = new URL(url_api+"/degradations");
+            URL url = new URL(Api.URL_API + "/degradations");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("POST");
@@ -55,7 +59,7 @@ public class PostDegradation_Task extends AsyncTask {
             writer.flush();
 
             int code = urlConnection.getResponseCode();
-            if (code !=  201) {
+            if (code != 201) {
                 throw new IOException("Invalid response from server: " + code);
             }
 

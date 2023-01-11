@@ -36,7 +36,7 @@ public class PostSuggestion_Task extends AsyncTask {
             postData.put("coords_x", coords_x);
             postData.put("coords_y", coords_y);
 
-            URL url = new URL(url_api+"/equipement");
+            URL url = new URL(Api.URL_API + "/suggestion");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("POST");
@@ -50,7 +50,7 @@ public class PostSuggestion_Task extends AsyncTask {
             writer.flush();
 
             int code = urlConnection.getResponseCode();
-            if (code !=  201) {
+            if (code != 201) {
                 throw new IOException("Invalid response from server: " + code);
             }
 

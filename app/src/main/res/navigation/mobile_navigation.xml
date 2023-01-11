@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_suggestion" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.sig2022_app.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_services"
+        android:name="com.example.sig2022_app.ui.services.ServicesFragment"
+        android:label="@string/title_services"
+        tools:layout="@layout/fragment_services" />
 </navigation>

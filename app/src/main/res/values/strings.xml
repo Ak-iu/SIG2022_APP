@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">SIG2022_APP</string>
+    <string name="app_name">SIG 2022</string>
     <string name="title_home">Home</string>
     <string name="title_suggestion">Suggestion</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_services">Services</string>
 
     <string name="label_garbage_types">Types de déchets :</string>
     <string name="label_jour_nettoyage">Jour de nettoyage :</string>
@@ -26,4 +26,6 @@
     <string name="position_actuelle">Position actuelle</string>
     <string name="select_carte">Sélectionner sur la carte</string>
     <string name="valider">Valider</string>
+    <string name="button_liste_degrad">Voir la liste des dégradations</string>
+    <string name="button_liste_sugg">Voir la liste des suggestions</string>
 </resources>
