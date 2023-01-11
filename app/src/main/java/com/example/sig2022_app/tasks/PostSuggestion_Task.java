@@ -1,6 +1,7 @@
 package com.example.sig2022_app.tasks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -13,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class PostSuggestion_Task extends AsyncTask {
+public class PostSuggestion_Task extends AsyncTask<Void,Void,Void> {
 
     private final String type;
     private final double coords_x;
@@ -26,7 +27,7 @@ public class PostSuggestion_Task extends AsyncTask {
     }
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected Void doInBackground(Void... voids) {
         HttpURLConnection urlConnection = null;
         try {
             JSONObject postData = new JSONObject();
@@ -34,7 +35,7 @@ public class PostSuggestion_Task extends AsyncTask {
             postData.put("coords_x", coords_x);
             postData.put("coords_y", coords_y);
 
-            URL url = new URL(Api.URL_API + "/suggestion");
+            URL url = new URL(Api.URL_API + "/suggestions");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("POST");

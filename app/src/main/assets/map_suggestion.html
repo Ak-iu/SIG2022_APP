@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+
+    <style>
+    .map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map" class="map"></div>
+<script type="text/javascript">
+	
+	// osm
+    var osm=new ol.layer.Tile({
+		extent: ol.proj.transformExtent([1.4,47.6,2.4,48.2],'EPSG:4326','EPSG:3857'),
+			source: new ol.source.OSM({opaque:false})
+	});	
+	
+	// marqueur	
+	var icone_marker = new ol.style.Style({
+		image: new ol.style.Icon({
+			src: 'icones/marker.png',
+			anchor:[0.5,0.9],
+		}),
+	});
+	
+	var marker_layer = new ol.layer.Vector({
+		source: new ol.source.Vector({}),
+		style: icone_marker,
+	});
+	
+	// map
+	var map = new ol.Map({
+		target: 'map',
+		layers: [osm,marker_layer],
+		view: new ol.View({
+			center: ol.proj.fromLonLat([1.909,47.897]),
+			zoom: 13,
+		})
+	});
+	
+	function load_marker(msg) {
+		var split = msg.split(';');
+		var coords = [parseFloat(split[0]),parseFloat(split[1])];
+		var marker = new ol.Feature({
+			geometry: new ol.geom.Point(ol.proj.fromLonLat(coords)),
+		});
+		marker_layer.getSource().addFeature(marker);
+	}
+	
+	//load_marker('1.896396142748051;47.89893362505401');
+		
+  </script>
+</body>

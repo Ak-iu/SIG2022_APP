@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class PostDegradation_Task extends AsyncTask {
+public class PostDegradation_Task extends AsyncTask<Void, Void, Void> {
 
     private final String nature;
     private final String id_equipement;
@@ -29,7 +29,7 @@ public class PostDegradation_Task extends AsyncTask {
 
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected Void doInBackground(Void... voids) {
         HttpURLConnection urlConnection = null;
         try {
             JSONObject postData = new JSONObject();

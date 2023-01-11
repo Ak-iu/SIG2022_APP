@@ -43,7 +43,6 @@ public class ListeDegradationsActivity extends AppCompatActivity implements Reto
         listView.setOnItemClickListener(messageClickedHandler);
     }
 
-    // Create a message handling object as an anonymous class.
     private final AdapterView.OnItemClickListener messageClickedHandler = (parent, v, position, id) -> {
         Log.d("liste degrad "+position,parent.getItemAtPosition(position).toString());
     };

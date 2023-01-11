@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.sig2022_app.R;
 import com.example.sig2022_app.WebAppInterface;
 import com.example.sig2022_app.databinding.FragmentSuggestionBinding;
+import com.example.sig2022_app.modele.Types;
 import com.example.sig2022_app.tasks.PostSuggestion_Task;
 
 public class SuggestionFragment extends Fragment {
@@ -104,60 +105,10 @@ public class SuggestionFragment extends Fragment {
             return;
         }
         String spinner_type = ((Spinner) root.findViewById(R.id.spinner_type)).getSelectedItem().toString();
-        String type = "";
-        switch (spinner_type) {
-            case "Tête d'arrosage":
-                type = "1S117";
-                break;
-            case "Banc public":
-                type = "3S111";
-                break;
-            case "Grille carrée arbre":
-                type = "3S098";
-                break;
-            case "Bac à fleurs rectangulaire":
-                type = "3S113";
-                break;
-            case "Jardinière ronde":
-                type = "2S112";
-                break;
-            case "Jeu d'enfant rectangulaire":
-                type = "3S115";
-                break;
-            case "Robinet ou vanne d'arrosage":
-                type = "1S119";
-                break;
-            case "Armoire d'arrosage":
-                type = "3S118";
-                break;
-            case "Jeu d'enfant rond":
-                type = "2S114";
-                break;
-            case "Statue, Monument":
-                type = "1S110";
-                break;
-            case "Grille ronde arbre":
-                type = "2S098";
-                break;
-            case "Jardinière suspendue":
-                type = "1S105";
-                break;
-            case "Colonne végétale":
-                type = "3S096";
-                break;
-            case "Jardinière sur poteau":
-                type = "1S106";
-                break;
-            case "Manège":
-                type = "2S116";
-                break;
-            case "Portique pour végétation":
-                type = "2S097";
-                break;
-            default: {
-                Toast.makeText(view.getContext(), "Veuillez sélectionner un type d'équipements", Toast.LENGTH_LONG).show();
-                return;
-            }
+        String type = Types.getCode(spinner_type);
+        if (type.isEmpty()) {
+            Toast.makeText(view.getContext(), "Veuillez sélectionner un type d'équipements", Toast.LENGTH_LONG).show();
+            return;
         }
         Toast.makeText(view.getContext(), "Suggestion enregistrée", Toast.LENGTH_LONG).show();
         PostSuggestion_Task task = new PostSuggestion_Task(type, lon, lat);

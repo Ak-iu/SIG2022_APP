@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.sig2022_app.ListeDegradationsActivity;
+import com.example.sig2022_app.ListeSuggestionsActivity;
 import com.example.sig2022_app.R;
 import com.example.sig2022_app.WebAppInterface;
 import com.example.sig2022_app.databinding.FragmentServicesBinding;
@@ -41,6 +42,7 @@ public class ServicesFragment extends Fragment implements RetourGetAllDegradatio
         task.execute();
 
         root.findViewById(R.id.button_liste_degradations).setOnClickListener(l -> selectDegradation("all"));
+        root.findViewById(R.id.button_liste_suggestions).setOnClickListener(l -> goListeSuggestions());
 
         return root;
     }
@@ -55,7 +57,7 @@ public class ServicesFragment extends Fragment implements RetourGetAllDegradatio
     public void retourDegradations(List<Degradation> degradations) {
         StringBuilder sb = new StringBuilder("{");
         for (Degradation deg : degradations) {
-            sb.append(deg).append(", ");
+            sb.append(deg.toJsObject()).append(", ");
         }
         sb.append("}");
 
@@ -63,7 +65,7 @@ public class ServicesFragment extends Fragment implements RetourGetAllDegradatio
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView.loadUrl("javascript:load_liste(" + sb + ");");
+                view.loadUrl("javascript:load_liste(" + sb + ");");
             }
         });
     }
@@ -72,6 +74,11 @@ public class ServicesFragment extends Fragment implements RetourGetAllDegradatio
         Intent intent = new Intent(getContext(), ListeDegradationsActivity.class);
         intent.putExtra("id_equipement",objectid);
         Log.d("selectDegradation",objectid);
+        startActivity(intent);
+    }
+
+    public void goListeSuggestions() {
+        Intent intent = new Intent(getContext(), ListeSuggestionsActivity.class);
         startActivity(intent);
     }
 

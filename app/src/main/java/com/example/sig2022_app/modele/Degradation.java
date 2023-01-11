@@ -58,9 +58,13 @@ public class Degradation {
         this.type = type;
     }
 
+    public String toJsObject() {
+        return id + ": {objectid: " + idEquipement + ", nature: '" + nature + "', date: '" + date + "', type: '" + type + "'}";
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return id + ": {objectid: " + idEquipement + ", nature: '" + nature + "', date: '" + date + "', type: '" + type + "'}";
+        return "ID: "+id+", objet concerné: "+idEquipement+"\nnature: "+nature+", date: "+date;
     }
 }

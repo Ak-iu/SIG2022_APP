@@ -16,6 +16,20 @@
         android:theme="@style/Theme.SIG2022_APP"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MapViewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ListeSuggestionsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ListeView"
             android:exported="false">
             <meta-data
