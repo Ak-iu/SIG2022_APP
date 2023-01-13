@@ -6,9 +6,12 @@
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.2777777777777778" />
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.2777777777777778" />
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/activity_details_mobilier.xml" value="0.3296875" />
+        <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/activity_liste_degradations.xml" value="0.3963541666666667" />
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/activity_main.xml" value="0.27001013171225935" />
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/activity_signaler_degradation.xml" value="0.67" />
         <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/fragment_home.xml" value="0.27178318135764945" />
+        <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/layout/fragment_services.xml" value="0.39221014492753625" />
+        <entry key="..\:/Users/Akiura/AndroidStudioProjects/SIG2022_APP/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3902564102564103" />
       </map>
     </option>
   </component>
